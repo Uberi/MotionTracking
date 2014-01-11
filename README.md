@@ -3,6 +3,10 @@ Resolve Camera Track
 
 Addon for Blender implementing 3D point reconstruction using multiple camera angles.
 
+Blender's standard 2D and 3D tracking is pretty effective at what it was designed to do. However, there are limits on the quality of the 3D tracking done from only one camera angle.
+
+Using multiple cameras put in different places, we can obtain depth perception, though Blender doesn't support this. This addon allows the user to do normal 2D tracking with two or more cameras, then combine these 2D tracks into the 3D motion of each track.
+
 Installation
 ------------
 
