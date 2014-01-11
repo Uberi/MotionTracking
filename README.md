@@ -1,11 +1,18 @@
 Resolve Camera Track
 ====================
 
-Addon for Blender implementing 3D point reconstruction using multiple camera angles.
+Addon for [Blender](http://www.blender.org/) implementing 3D point reconstruction using multiple camera angles.
+
+Rationale
+---------
 
 Blender's standard 2D and 3D tracking is pretty effective at what it was designed to do. However, there are limits on the quality of the 3D tracking done from only one camera angle.
 
-Using multiple cameras put in different places, we can obtain depth perception, though Blender doesn't support this. This addon allows the user to do normal 2D tracking with two or more cameras, then combine these 2D tracks into the 3D motion of each track.
+A good analogy is trying to determine how far away something is by looking at it with just one eye. Is it small and close, or big and far? Human beings can use contextual cues to estimate the distance, but not only is this inaccurate, it is not very practical to do with computers.
+
+If we use multiple cameras put in different places, we can obtain depth perception, though we can't use this directly in Blender. This is the purpose of this addon.
+
+With this addon, the user performs 2D tracking with two or more cameras, then combines these 2D tracks into the 3D motion of each track. With the 3D tracked data, we can control rigs, reconstruct scenes, and greenscreen with better accuracy than ever before.
 
 Installation
 ------------
@@ -73,11 +80,16 @@ Possible errors include:
     * Select only empty objects.
 * `Motion Tracking constraint to be converted not found`: one of the selected objects was missing the Follow Track constraint that makes it follow the track.
     * Ensure each object has a Follow Track constraint.
+    * Ensure the objects are empties created from motion tracks.
 * `Movie clip to use tracking data from isn't set`: one of the selected objects' Follow Track constraint did not have its Clip property set.
     * Check the Follow Track constraint settings for each object to ensure the Clip property is set.
+    * Ensure the objects are empties created from motion tracks.
 * `Tracked object not found`: one of the selected objects' Follow Track constraint did not have a correctly associated track.
     * Check the Follow Track constraint settings for each object to ensure the Track property is set.
+    * Ensure the objects are empties created from motion tracks.
 * `At least 2 cameras need to be available`: the selected empties must represent views from two or more cameras, but only represented 0 or 1.
     * Select empties representing views from more than 1 camera.
+    * Select more than 1 empty.
 * `Lines are too close to parallel`: the rays shot from the two cameras to their associated Empty objects are parallel.
     * Shoot the footage from cameras at a larger angle apart.
+    * Select only one empty per camera.
