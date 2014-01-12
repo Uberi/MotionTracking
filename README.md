@@ -3,6 +3,8 @@ Resolve Camera Track
 
 Addon for [Blender](http://www.blender.org/) implementing 3D point reconstruction using multiple camera angles.
 
+![Screenshot](Screenshot.png)
+
 Rationale
 ---------
 
