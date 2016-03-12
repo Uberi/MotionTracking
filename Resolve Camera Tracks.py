@@ -63,16 +63,17 @@ class ResolveCameraTracks(bpy.types.Operator):
             if constraint.type == "FOLLOW_TRACK":
                 track_constraint = constraint
                 if not track_constraint.clip:
-                    raise Exception("Clip for constraint \"{}\" of \"{}\" not found".format(track_constraint, target.name))
+                    raise Exception("Clip for constraint \"{}\" of \"{}\" not found".format(track_constraint.name, target.name))
                 break
         else:
             raise Exception("Follow Track constraint for \"{}\" not found".format(target.name))
 
         # get the track for the track constraint on the target
-        for track in track_constraint.clip.tracking.tracks:
-            if track.name == track_constraint.track:
-                return track, track_constraint.camera
-        raise Exception("Track for constraint \"{}\" of \"{}\" not found".format(track_constraint, target.name))
+        for object in track_constraint.clip.tracking.objects:
+            for track in object.tracks:
+                if track.name == track_constraint.track:
+                    return track, track_constraint.camera
+        raise Exception("Track for constraint \"{}\" of \"{}\" not found".format(track_constraint.name, target.name))
 
     def get_target_locations(self, target):
         """
