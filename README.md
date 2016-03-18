@@ -10,11 +10,9 @@ Addon for [Blender](http://www.blender.org/) implementing 3D point reconstructio
 Rationale
 ---------
 
-Blender's standard 2D and 3D tracking is pretty effective at what it was designed to do. However, there are limits on the quality of the 3D tracking done from only one camera angle.
+Blender's standard 2D and 3D tracking is pretty effective at what it was designed to do. However, there are limits on the quality of the 3D tracking done from only one camera angle. To get around this, professional tracking setups use multiple cameras recording the same scheme from multiple angles.
 
-If we use multiple cameras put in different places, we can obtain depth perception, though we can't use this directly in Blender. This addon adds the ability to resolve tracking points made from multiple cameras together into a single scene.
-
-Essentially, this addon implements 3D tracking using multiple 2D tracks. The user performs 2D tracking with two or more cameras, then combines these 2D tracks into a 3D animation. With the 3D tracked data, we can control rigs, reconstruct scenes, and greenscreen with better accuracy than ever before.
+This addon adds the ability to resolve tracking points made from multiple cameras together into a single scene. Essentially, it takes 2D motion tracks from two or more camera recordings at different angles, and combines them into 3D motion tracks. With the 3D tracked data, we can control rigs, reconstruct scenes, and greenscreen with better accuracy than ever before.
 
 Installation
 ------------
@@ -48,7 +46,7 @@ The following is a recommended workflow for working with the addon:
 12. In Blender, track the points of interest using the motion tracker, ensuring the camera settings such as focal length are set to the same as the real cameras, and that tracks for any given feature have the same name across all videos.
 13. For each video, select all the tracks and use `Movie Clip Editor > Reconstruction > Link Empty to Track`, making sure they are associated with the correct Blender camera.
 14. Select all the generated empties, and invoke `View3D > Object > Resolve Camera Tracks`.
-15. You should now have a set of Empty objects that track in 3D the locations of the real-world markers. These can now be used for animation, such as setting these as hooks for a rig.
+15. You should now have a set of Empty objects that track in 3D the locations of the real-world markers. These can now be used for animation; for example, as hooks for a rig.
 
 Usage
 -----
@@ -96,4 +94,3 @@ Possible errors include:
     * Select more than 1 empty.
 * `Lines are too close to parallel`: the rays shot from two or more cameras to their associated Empty objects are too close to parallel.
     * Shoot the footage from cameras at a larger angle apart.
-    * Select only one empty per camera.
