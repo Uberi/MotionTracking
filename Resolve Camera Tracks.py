@@ -56,7 +56,8 @@ class ResolveCameraTracks(bpy.types.Operator):
 
     def get_target_track(self, target):
         """
-        Returns a motion tracking track associated with object `target` and the camera associated with object `target`.
+        Returns a motion tracking track associated with object `target` and
+        the camera associated with object `target`.
         """
         # find the follow track constraint and obtain the associated track
         for constraint in target.constraints:
@@ -77,15 +78,21 @@ class ResolveCameraTracks(bpy.types.Operator):
 
     def get_target_locations(self, target):
         """
-        Returns a list of positions in world space for object `target` for frames that it is animated for (and None for frames that are not), the camera associated with object `target`, the start frame, and the end frame.
+        Returns a list of positions in world space for object `target` for
+        frames that it is animated for (and None for frames that are not), the
+        camera associated with object `target`, the start frame, and the end
+        frame.
         """
         track, camera = self.get_target_track(target)
 
         # obtain track information
-        marker_frames = {marker.frame for marker in track.markers if not marker.mute} # set of frame indices for enabled markers
+
+        # set of frame indices for enabled markers
+        marker_frames = {marker.frame for marker in track.markers if not marker.mute}
         start_frame, end_frame = min(marker_frames), max(marker_frames)
 
-        original_frame = bpy.context.scene.frame_current # save the frame so we can restore it later
+        # save the frame so we can restore it later
+        original_frame = bpy.context.scene.frame_current
 
         # store object world locations for each frame
         locations = []
@@ -96,13 +103,16 @@ class ResolveCameraTracks(bpy.types.Operator):
             else:
                 locations.append(None)
 
-        bpy.context.scene.frame_set(original_frame) # move back to the original frame
+        # move back to the original frame
+        bpy.context.scene.frame_set(original_frame)
 
         return locations, camera, start_frame, end_frame
 
     def add_resolved_empty(self, targets):
         """
-        Adds an empty animated to be at the point closest to every target in `targets`, where each target in `targets` is animated by a Follow Track constraint.
+        Adds an empty animated to be at the point closest to every target in 
+        `targets`, where each target in `targets` is animated by a Follow
+        Track constraint.
 
         Returns the newly created empty.
         """
@@ -116,14 +126,16 @@ class ResolveCameraTracks(bpy.types.Operator):
             target_starts.append(start)
             target_ends.append(end)
 
-        if len(set(target_cams)) < 2: # two camera is the minimum number of cameras
+        # two camera is the minimum number of cameras
+        if len(set(target_cams)) < 2:
             raise Exception("At least 2 cameras need to be available")
 
         # add the empty object
         bpy.ops.object.add(type="EMPTY")
         resolved = bpy.context.active_object
 
-        original_frame = bpy.context.scene.frame_current # save the frame so we can restore it later
+        # save the frame so we can restore it later
+        original_frame = bpy.context.scene.frame_current
 
         # set up keyframes for each location
         min_distance, min_distance_frame = float("inf"), None
@@ -137,7 +149,8 @@ class ResolveCameraTracks(bpy.types.Operator):
 
             bpy.context.scene.frame_set(frame) # move to the current frame
 
-            # go through each possible combination of targets and find the one that gives the best result
+            # go through each possible combination of targets and find the one
+            # that gives the best result
             best_location, best_distance = None, float("inf")
             for pair in itertools.combinations(range(0, len(targets)), 2):
                 first, second = pair[0], pair[1]
@@ -161,7 +174,8 @@ class ResolveCameraTracks(bpy.types.Operator):
                     max_distance = best_distance
                     max_distance_frame = frame
 
-        bpy.context.scene.frame_set(original_frame) # move back to the original frame
+        # move back to the original frame
+        bpy.context.scene.frame_set(original_frame)
 
         # make the resolved track object more identifiable
         track, _ = self.get_target_track(targets[0])
@@ -174,7 +188,9 @@ class ResolveCameraTracks(bpy.types.Operator):
 
 def closest_point(cam1, cam2, point1, point2):
     """
-    Produces the point closest to the lines formed from `cam1` to `point1` and from `cam2` to `point2`, and the total distance between this point and the lines.
+    Produces the point closest to the lines formed from `cam1` to `point1` and
+    from `cam2` to `point2`, and the total distance between this point and the
+    lines.
 
     Reference: http://www.gbuffer.net/archives/361
     """
