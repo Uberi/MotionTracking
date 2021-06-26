@@ -45,13 +45,13 @@ The following is a recommended workflow for working with the addon:
 11. Ensure the video footage from all cameras match up in real time.
 12. In Blender, track the points of interest using the motion tracker, ensuring the camera settings such as focal length are set to the same as the real cameras, and that tracks for any given feature have the same name across all videos.
 13. For each video, select all the tracks and use `Movie Clip Editor > Reconstruction > Link Empty to Track`, making sure they are associated with the correct Blender camera.
-14. Select all the generated empties, and invoke `View3D > Object > Resolve Camera Tracks`.
+14. Select all the generated empties, and invoke `Object > Resolve Camera Tracks`.
 15. You should now have a set of Empty objects that track in 3D the locations of the real-world markers. These can now be used for animation; for example, as hooks for a rig.
 
 Usage
 -----
 
-The operator is accessible via `View3D > Object > Resolve Camera Tracks`, or `Search > Resolve Camera Tracks`.
+The operator is accessible via `Object > Resolve Camera Tracks`, or `Search > Resolve Camera Tracks`.
 
 ### Before
 

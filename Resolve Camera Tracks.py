@@ -9,8 +9,8 @@ bl_info = {
     "author": "Anthony Zhang",
     "category": "Animation",
     "version": (1, 1),
-    "blender": (2, 75, 0),
-    "location": "View3D > Object > Resolve Camera Tracks or Search > Resolve Camera Tracks",
+    "blender": (2, 93, 0),
+    "location": "Object > Resolve Camera Tracks or Search > Resolve Camera Tracks",
     "description": "3D point reconstruction from multiple camera angles",
 }
 
@@ -50,7 +50,7 @@ class ResolveCameraTracks(bpy.types.Operator):
 
         # select the resolved empties
         bpy.ops.object.select_all(action="DESELECT")
-        for empty in resolved_empties: empty.select = True
+        for empty in resolved_empties: empty.select_set(True)
 
         return {"FINISHED"}
 
@@ -180,8 +180,8 @@ class ResolveCameraTracks(bpy.types.Operator):
         # make the resolved track object more identifiable
         track, _ = self.get_target_track(targets[0])
         resolved.name = "{}_tracked".format(track.name)
-        resolved.empty_draw_type = "SPHERE"
-        resolved.empty_draw_size = 0.1
+        resolved.empty_display_type = "SPHERE"
+        resolved.empty_display_size = 0.1
 
         self.report({"INFO"}, "{}: min error {} (frame {}), max error {} (frame {})".format(resolved.name, min_distance / 2, min_distance_frame, max_distance / 2, max_distance_frame))
         return resolved
@@ -197,11 +197,11 @@ def closest_point(cam1, cam2, point1, point2):
     dir1 = point1 - cam1
     dir2 = point2 - cam2
     dir3 = cam2 - cam1
-    a = dir1 * dir1
-    b = -dir1 * dir2
-    c = dir2 * dir2
-    d = dir3 * dir1
-    e = -dir3 * dir2
+    a = dir1.dot(dir1)
+    b = -dir1.dot(dir2)
+    c = dir2.dot(dir2)
+    d = dir3.dot(dir1)
+    e = -dir3.dot(dir2)
     if abs((c * a) - (b ** 2)) < 0.0001: # lines are nearly parallel
         raise Exception("Lines are too close to parallel")
     extent1 = ((d * c) - (e * b)) / ((c * a) - (b ** 2))
